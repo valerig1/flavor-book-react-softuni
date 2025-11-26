@@ -5,7 +5,7 @@ export default function Footer() {
 
         {/* Copyright */}
         <div className="text-center">
-          <p>© {new Date().getFullYear()} FlavorBook. All rights reserved.</p>
+          <p>© 2025 FlavorBook. All rights reserved.</p>
         </div>
       </div>
     </footer>
