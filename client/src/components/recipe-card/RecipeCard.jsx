@@ -1,17 +1,21 @@
-export default function RecipeCard() {
+export default function RecipeCard({
+    name,
+    img,
+
+}) {
     return (
         <div className="bg-white shadow rounded-lg overflow-hidden">
             <img
-                src=""
-                alt="Spaghetti Carbonara"
-                className="w-full h-48 object-cover"
+                src={img}
+                alt={name}
+                className="w-full h-64 object-cover"
             />
 
             <div className="p-4 min-h-24">
-                <h2 className="text-xl font-semibold mb-2">Spaghetti Carbonara</h2>
+                <h2 className="text-xl font-semibold mb-2">{name}</h2>
 
                 <div className="flex items-center justify-between">
-                    <p className="text-gray-600 text-sm">
+                    <p className="text-gray-600 text-sm truncate max-w-[80%]">
                         A classic Italian pasta dish with a rich meat sauce.
                     </p>
 
