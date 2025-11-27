@@ -9,11 +9,11 @@ function App() {
 
       <Header />
 
-      <main className="flex-1">
+        <main className="flex-1">
 
-        <Home />
-        
-      </main>
+          <Home />
+
+        </main>
 
       <Footer />
 
