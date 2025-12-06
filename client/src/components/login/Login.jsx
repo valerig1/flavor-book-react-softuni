@@ -1,17 +1,47 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import useForm from "../../hooks/useForm";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 export default function Login() {
+    const navigate = useNavigate();
+    const { loginHandler } = useContext(UserContext);
+
+    const loginSubmitHandler = async (values) => {
+        const { email, password } = values;
+
+         if (!email || !password) {
+            return alert('Email and password are required!');
+        }
+
+        try {
+            await loginHandler(email, password);
+            
+            navigate('/');
+        } catch (err) {
+            alert(err.message);
+        }
+    }
+
+    const { formAction, changeHandler, values } = useForm(loginSubmitHandler, {
+        email: '',
+        password: '',
+    });
+
     return (
         <div className="flex justify-center items-center min-h-[80vh] bg-gray-50">
             <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-xl">
                 <h2 className="text-3xl font-bold text-center mb-8">Login</h2>
 
-                <form>
+                <form action={formAction}>
                     {/* Email */}
                     <div className="mb-5">
                         <label className="block text-gray-700 text-sm mb-1">Email</label>
                         <input
                             type="email"
+                            name="email"
+                            onChange={changeHandler}
+                            values={values.email}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
                             required
                         />
@@ -22,6 +52,9 @@ export default function Login() {
                         <label className="block text-gray-700 text-sm mb-1">Password</label>
                         <input
                             type="password"
+                            name="password"
+                            onChange={changeHandler}
+                            values={values.password}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
                             required
                         />
