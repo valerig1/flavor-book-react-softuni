@@ -1,8 +1,12 @@
+import { useContext, useEffect, useState } from "react";
 import UserContext from "../contexts/UserContext";
 
 const baseUrl = 'http://localhost:3030';
 
-export default function useRequest() {       
+export default function useRequest(url, initialState) {       
+     const { user, isAuthenticated } = useContext(UserContext);
+     const [data, setData] = useState(initialState);
+
     const request = async (url, method, data, accessToken) => {
         let options = {};
 
@@ -18,10 +22,10 @@ export default function useRequest() {
             options.body = JSON.stringify(data);
         }
 
-        if (accessToken) {
+          if (accessToken || isAuthenticated) {
             options.headers = {
                 ...options.headers,
-                'X-Authorization': accessToken 
+                'X-Authorization': accessToken || user.accessToken,
             }
         }
 
@@ -40,7 +44,19 @@ export default function useRequest() {
         return result;
     }
 
+    useEffect(() => {
+        if (!url) {
+            return;
+        }
+
+        request(url)
+            .then(result => setData(result))
+            .catch(err => alert(err.message));
+    }, [url]);
+
     return {
         request,
+        data,
+        setData,
     }
 }
