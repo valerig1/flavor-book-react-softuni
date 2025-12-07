@@ -1,16 +1,56 @@
+import { useNavigate } from "react-router";
+import useForm from "../../hooks/useForm";
+import useRequest from "../../hooks/useRequest";
+
 export default function RecipeCreate() {
+    const navigate = useNavigate();
+    const { request } = useRequest();
+
+    const createRecipeSubmitHandler = async (values) => {
+        const { name, img, ingredients, steps } = values;        
+
+        if (!name || !img || !ingredients || !steps) {
+            return alert('All fields are required!');
+        }
+
+        const ingredientsArr = ingredients
+            .split(',')
+            .map(item => item.trim())
+            .filter(i => i.length > 0);
+        const stepsArr = steps
+            .split(',')
+            .map(item => item.trim())
+            .filter(i => i.length > 0);
+        
+        try {
+            await request('/data/recipes', 'POST', { name, img, likes: [], ingredientsArr, stepsArr });
+            navigate('/recipes');
+        } catch (err) {
+            alert(err.message);
+        }
+    }
+
+    const { formAction, changeHandler, values } = useForm(createRecipeSubmitHandler, {
+        name: '',
+        img: '',
+        ingredients: '',
+        steps: '',
+    })
+
     return (
         <div className="flex justify-center items-center h-full min-h-[calc(100vh-160px)] bg-gray-50">
             <div className="w-full max-w-xl bg-white p-8 rounded-lg shadow-xl">
                 <h2 className="text-3xl font-bold text-center mb-8">Create a New Recipe</h2>
 
-                <form>
+                <form action={formAction}>
                     {/* Recipe Name */}
                     <div className="mb-5">
                         <label className="block text-gray-700 text-sm mb-1">Recipe Name</label>
                         <input
                             type="text"
                             name="name"
+                            onChange={changeHandler}
+                            values={values.name}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                        focus:outline-none focus:ring focus:ring-blue-200"
                             placeholder="e.g., Spaghetti Carbonara"
@@ -24,6 +64,8 @@ export default function RecipeCreate() {
                         <input
                             type="text"
                             name="img"
+                            onChange={changeHandler}
+                            values={values.img}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                        focus:outline-none focus:ring focus:ring-blue-200"
                             placeholder="Paste an image link"
@@ -36,6 +78,8 @@ export default function RecipeCreate() {
                         <label className="block text-gray-700 text-sm mb-1">Ingredients</label>
                         <textarea
                             name="ingredients"
+                            onChange={changeHandler}
+                            values={values.ingredients}
                             rows="4"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                        focus:outline-none focus:ring focus:ring-blue-200"
@@ -49,6 +93,8 @@ export default function RecipeCreate() {
                         <label className="block text-gray-700 text-sm mb-1">Steps</label>
                         <textarea
                             name="steps"
+                            onChange={changeHandler}
+                            values={values.steps}
                             rows="5"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                        focus:outline-none focus:ring focus:ring-blue-200"
