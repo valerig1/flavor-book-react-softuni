@@ -1,8 +1,10 @@
+import { Link } from "react-router";
+
 export default function RecipeCard({
     name,
     description,
     img,
-
+    _id,
 }) {
     return (
         <div className="bg-white shadow rounded-lg overflow-hidden">
@@ -18,9 +20,7 @@ export default function RecipeCard({
                 <div className="flex items-center justify-between">
                     <p className="text-gray-600 text-sm truncate max-w-[80%]">{description}</p>
 
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-1 rounded-md transition ml-4 shrink-0">
-                        View Recipe
-                    </button>
+                    <Link to={`/recipes/${_id}/details`} className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-5 py-1 rounded-md transition ml-4 shrink-0">View Recipe</Link>
                 </div>
             </div>
         </div>

@@ -8,6 +8,7 @@ import RecipeCreate from "./components/recipe-create/RecipeCreate"
 import Logout from "./components/logout/Logout"
 import { UserProvider } from "./contexts/UserContext"
 import Catalog from "./components/catalog/Catalog"
+import Details from "./components/details/Details"
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/recipes" element={<Catalog />} />
+            <Route path="/recipes/:recipeId/details" element={<Details />} />
             <Route path="/recipes/create" element={<RecipeCreate />} />
           </Routes>
         </main>
