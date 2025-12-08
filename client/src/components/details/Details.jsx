@@ -1,12 +1,29 @@
 import { Link, useNavigate, useParams } from "react-router";
 import useRequest from "../../hooks/useRequest";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 export default function Details() {
     const { recipeId } = useParams();
     const navigate = useNavigate();
+    const { user, isAuthenticated } = useContext(UserContext);
 
-    const { data: recipe } = useRequest(`/data/recipes/${recipeId}`, []);
+    const { data: recipe, request } = useRequest(`/data/recipes/${recipeId}`, []);
 
+    const deleteRecipeHandler = async () => {
+        const isConfirmed = confirm(`Are you sure you want to delete this game: ${recipe.name}`);
+
+        if (!isConfirmed) {
+            return;
+        }
+
+        try {
+            await request(`/data/recipes/${recipeId}`, 'DELETE');
+            navigate('/recipes');
+        } catch (err) {
+            alert('Unable to delete recipe: ', err.message);
+        }
+    }
 
     return (
         <div className="relative min-h-[calc(100vh-8rem)] flex justify-center items-center bg-gray-50">
@@ -49,15 +66,22 @@ export default function Details() {
                 </div>
 
                 <div className="flex justify-end items-center gap-3 mt-6">
-                    <Link
-                        to={`/recipes/${recipe._id}/edit`}
-                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm"
-                    >
-                        Edit
-                    </Link>
-                    <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm">
-                        Delete
-                    </button>
+                    {isAuthenticated && user._id === recipe._ownerId
+                    ? <>
+                        <Link
+                            to={`/recipes/${recipeId}/edit`}
+                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm"
+                        >
+                            Edit
+                        </Link>
+                        <button onClick={deleteRecipeHandler} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm">
+                            Delete
+                        </button>
+                    </>
+                    :
+                    <></>
+                    }
+                    
                     <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm">
                         Like ({recipe.likes?.length || 0})
                     </button>
