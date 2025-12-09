@@ -71,7 +71,7 @@ export default function Details() {
     }
 
     const deleteRecipeHandler = async () => {
-        const isConfirmed = confirm(`Are you sure you want to delete this game: ${recipe.name}`);
+        const isConfirmed = confirm(`Are you sure you want to delete this recipe: ${recipe.name}`);
 
         if (!isConfirmed) {
             return;
