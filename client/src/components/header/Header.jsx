@@ -10,7 +10,6 @@ export default function Header() {
             <div className="px-8 sm:px-12 lg:px-20">
                 <div className="flex items-center justify-between py-4">
 
-                    {/* Logo */}
                     <div className="flex items-center">
                         <Link
                             to="/"
@@ -21,7 +20,6 @@ export default function Header() {
                         </Link>
                     </div>
 
-                    {/* Navigation */}
                     <nav>
                         <ul className="flex space-x-6 text-gray-700 font-medium">
                             <li><Link to="/" className="hover:text-blue-600">Home</Link></li>

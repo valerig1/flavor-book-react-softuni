@@ -19,7 +19,6 @@ export default function Home() {
                 Discover our latest delicious recipes and start cooking today!
             </p>
 
-            {/* Recipe Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {latestRecipes.length > 0
                     ? (latestRecipes.map(recipe => <RecipeCard key={recipe._id} {...recipe} />))

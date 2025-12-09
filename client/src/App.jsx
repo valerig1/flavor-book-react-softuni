@@ -16,43 +16,43 @@ import OwnerRoute from "./components/route-guard/OwnerRoute"
 import NotFound from "./components/not-found/NotFound"
 
 function App() {
-  return (
-    <UserProvider>
-      <div className="min-h-screen flex flex-col">
-        <Header />
+	return (
+		<UserProvider>
+			<div className="min-h-screen flex flex-col">
+				<Header />
 
-        <main className="bg-gray-50 flex-1">
-          <Routes>
+				<main className="bg-gray-50 flex-1">
+					<Routes>
 
-            {/* Guest Routes */}
-            <Route element={<GuestRoute />}>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-            </Route>
+						{/* Guest Routes */}
+						<Route element={<GuestRoute />}>
+							<Route path="/login" element={<Login />} />
+							<Route path="/register" element={<Register />} />
+						</Route>
 
-            {/* Auth Routes */}
-            <Route element={<ProtectedRoute />}>
-              <Route path="/recipes/create" element={<RecipeCreate />} />
-              <Route path="/logout" element={<Logout />} />
-            </Route>
+						{/* Auth Routes */}
+						<Route element={<ProtectedRoute />}>
+							<Route path="/recipes/create" element={<RecipeCreate />} />
+							<Route path="/logout" element={<Logout />} />
+						</Route>
 
-            {/* Owner Only Routes */}
-            <Route element={<OwnerRoute />}>
-              <Route path="/recipes/:recipeId/edit" element={<Edit />} />
-            </Route>
+						{/* Owner Only Routes */}
+						<Route element={<OwnerRoute />}>
+							<Route path="/recipes/:recipeId/edit" element={<Edit />} />
+						</Route>
 
-            {/* Public Routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/recipes" element={<Catalog />} />
-            <Route path="/recipes/:recipeId/details" element={<Details />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </main>
+						{/* Public Routes */}
+						<Route path="/" element={<Home />} />
+						<Route path="/recipes" element={<Catalog />} />
+						<Route path="/recipes/:recipeId/details" element={<Details />} />
+						<Route path="*" element={<NotFound />} />
+					</Routes>
+				</main>
 
-        <Footer />
-      </div>
-    </UserProvider>
-  )
+				<Footer />
+			</div>
+		</UserProvider>
+	)
 }
 
 export default App

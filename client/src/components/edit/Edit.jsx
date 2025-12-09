@@ -65,7 +65,6 @@ export default function Edit() {
                 <h2 className="text-3xl font-bold text-center mb-8">Edit Recipe</h2>
 
                 <form action={formAction}>
-                    {/* Recipe Name */}
                     <div className="mb-5">
                         <label className="block text-gray-700 text-sm mb-1">Recipe Name</label>
                         <input
@@ -82,7 +81,6 @@ export default function Edit() {
                         )}
                     </div>
 
-                    {/* Short Description */}
                     <div className="mb-5">
                         <label className="block text-gray-700 text-sm mb-1">Short Description</label>
                         <input
@@ -99,7 +97,6 @@ export default function Edit() {
                         )}
                     </div>
 
-                    {/* Image URL */}
                     <div className="mb-5">
                         <label className="block text-gray-700 text-sm mb-1">Image URL</label>
                         <input
@@ -116,7 +113,6 @@ export default function Edit() {
                         )}
                     </div>
 
-                    {/* Ingredients */}
                     <div className="mb-5">
                         <label className="block text-gray-700 text-sm mb-1">Ingredients</label>
                         <textarea
@@ -133,7 +129,6 @@ export default function Edit() {
                         )}
                     </div>
 
-                    {/* Steps */}
                     <div className="mb-6">
                         <label className="block text-gray-700 text-sm mb-1">Steps</label>
                         <textarea
@@ -150,7 +145,6 @@ export default function Edit() {
                         )}
                     </div>
 
-                    {/* Create Button */}
                     <button
                         type="submit"
                         className="w-full bg-blue-600 text-white py-2.5 rounded-lg 

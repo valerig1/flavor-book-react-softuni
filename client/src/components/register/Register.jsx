@@ -44,7 +44,6 @@ export default function Register() {
                 <h2 className="text-3xl font-bold text-center mb-8">Register</h2>
 
                 <form action={formAction}>
-                    {/* Email */}
                     <div className="mb-5">
                         <label className="block text-gray-700 text-sm mb-1">Email</label>
                         <input
@@ -59,7 +58,6 @@ export default function Register() {
                         )}
                     </div>
 
-                    {/* Password */}
                     <div className="mb-5">
                         <label className="block text-gray-700 text-sm mb-1">Password</label>
                         <input
@@ -74,7 +72,6 @@ export default function Register() {
                         )}
                     </div>
 
-                    {/* Confirm Password */}
                     <div className="mb-6">
                         <label className="block text-gray-700 text-sm mb-1">Confirm Password</label>
                         <input
@@ -89,7 +86,6 @@ export default function Register() {
                         )}
                     </div>
 
-                    {/* Already registered link */}
                     <p className="text-center text-sm text-gray-600 mb-4">
                         Already have an account?{" "}
                         <Link to="/login" className="text-blue-600 hover:underline">
@@ -97,7 +93,6 @@ export default function Register() {
                         </Link>
                     </p>
 
-                    {/* Register Button */}
                     <button
                         type="submit"
                         className="w-full bg-blue-600 text-white py-2.5 rounded-lg hover:bg-blue-700 transition"

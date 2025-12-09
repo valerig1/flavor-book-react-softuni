@@ -92,21 +92,18 @@ export default function Details() {
     return (
         <div className="relative min-h-[calc(100vh-8rem)] flex justify-center items-center bg-gray-50">
             <div className="bg-white rounded-xl shadow-md p-6 max-w-3xl w-full overflow-hidden text-base border border-gray-300 hover:border-gray-400 transition">
-                {/* Image */}
                 <img
                     src={recipe.img}
                     alt={recipe.name}
                     className="w-full h-64 object-cover rounded-lg mb-6"
                 />
 
-                {/* Name + Description */}
                 <h1 className="text-3xl font-bold text-center mb-2">{recipe.name}</h1>
                 <p className="text-gray-700 text-center mb-6 max-w-xl mx-auto">
                     {recipe.description}
                 </p>
 
                 <div className="max-w-2xl mx-auto grid grid-cols-2 gap-6">
-                    {/* Ingredients Box */}
                     <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
                         <h3 className="font-semibold text-center text-lg mb-3">Ingredients</h3>
                         <ul className="list-disc list-inside space-y-1">
@@ -116,7 +113,6 @@ export default function Details() {
                         </ul>
                     </div>
 
-                    {/* Steps Box */}
                     <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
                         <h3 className="font-semibold text-center text-lg mb-3">
                             Preparation Steps
