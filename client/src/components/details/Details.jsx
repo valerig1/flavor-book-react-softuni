@@ -1,14 +1,74 @@
 import { Link, useNavigate, useParams } from "react-router";
 import useRequest from "../../hooks/useRequest";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserContext from "../../contexts/UserContext";
 
 export default function Details() {
     const { recipeId } = useParams();
     const navigate = useNavigate();
     const { user, isAuthenticated } = useContext(UserContext);
+    const { request } = useRequest();
 
-    const { data: recipe, request } = useRequest(`/data/recipes/${recipeId}`, []);
+    const [recipe, setRecipe] = useState();
+    const [likes, setLikes] = useState();
+    const [hasLiked, setHasLiked] = useState(false);
+
+    useEffect(() => {
+        async function loadData() {
+            try {
+                const recipe = await request(`/data/recipes/${recipeId}`);
+                setRecipe(recipe);
+            } catch (err) {
+                alert(err.message);
+            }
+
+            try {
+                const totalLikes = await request(`/data/likes?where=recipeId%3D%22${recipeId}%22`);
+                setLikes(totalLikes);
+            } catch (err) {
+                alert(err.message);
+            }
+
+            if (isAuthenticated) {
+                try {
+                    const query = new URLSearchParams({
+                        where: `recipeId="${recipeId}" and _ownerId="${user._id}"`
+                    });
+                    // const userLiked = await request(`/data/likes?where=recipeId%3D%22${recipeId}%22%20and%20_ownerId%3D%22${user._id}%22`);
+                    const userLiked = await request(`/data/likes?${query.toString()}`);
+                    setHasLiked(userLiked.length > 0);
+                } catch (err) {
+                    alert(err.message);
+                }
+            }
+        }
+        loadData();
+    }, [recipeId, isAuthenticated, user]);
+
+    const likeHandler = async () => {
+        if (!isAuthenticated) {
+            return alert("You must be logged in to like recipes.");
+        }
+
+        if (hasLiked) {
+            return alert("You already liked this recipe.")
+        };
+
+        try {
+            await request(`/data/likes`, 'POST', { recipeId });
+        } catch (err) {
+            alert(err.message);
+        }
+
+        try {
+            const totalLikes = await request(`/data/likes?where=recipeId%3D%22${recipeId}%22`);
+            setLikes(totalLikes);
+        } catch (err) {
+            alert(err.message);
+        }
+
+        setHasLiked(true);
+    }
 
     const deleteRecipeHandler = async () => {
         const isConfirmed = confirm(`Are you sure you want to delete this game: ${recipe.name}`);
@@ -23,6 +83,10 @@ export default function Details() {
         } catch (err) {
             alert('Unable to delete recipe: ', err.message);
         }
+    }
+
+    if (!recipe) {
+        return <p>Loading...</p>;
     }
 
     return (
@@ -66,27 +130,48 @@ export default function Details() {
                 </div>
 
                 <div className="flex justify-end items-center gap-3 mt-6">
-                    {isAuthenticated && user._id === recipe._ownerId
-                    ? <>
-                        <Link
-                            to={`/recipes/${recipeId}/edit`}
-                            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm"
-                        >
-                            Edit
-                        </Link>
-                        <button onClick={deleteRecipeHandler} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm">
-                            Delete
-                        </button>
-                    </>
-                    :
-                    <></>
-                    }
-                    
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm">
-                        Like ({recipe.likes?.length || 0})
-                    </button>
+
+                    {/* Likes Count (ALWAYS visible) */}
+                    <span className="text-gray-600 mr-auto">
+                        Likes: {likes?.length || 0}
+                    </span>
+
+                    {/* LOGGED IN + OWNER → Edit / Delete */}
+                    {isAuthenticated && user._id === recipe._ownerId && (
+                        <>
+                            <Link
+                                to={`/recipes/${recipeId}/edit`}
+                                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm"
+                            >
+                                Edit
+                            </Link>
+
+                            <button
+                                onClick={deleteRecipeHandler}
+                                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm"
+                            >
+                                Delete
+                            </button>
+                        </>
+                    )}
+
+                    {/* LOGGED IN + NOT OWNER → Like button */}
+                    {isAuthenticated && user._id !== recipe._ownerId && (
+                        !hasLiked ? (
+                            <button
+                                onClick={likeHandler}
+                                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm"
+                            >
+                                Like
+                            </button>
+                        ) : (
+                            <span className="text-blue-600 font-medium">
+                                Liked ✔
+                            </span>
+                        )
+                    )}
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
