@@ -21,7 +21,7 @@ function App() {
       <div className="min-h-screen flex flex-col">
         <Header />
 
-        <main className="flex-1">
+        <main className="bg-gray-50 flex-1">
           <Routes>
 
             {/* Guest Routes */}

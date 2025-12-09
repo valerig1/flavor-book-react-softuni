@@ -40,7 +40,7 @@ export default function Register() {
 
     return (
         <div className="flex justify-center items-center min-h-[80vh] bg-gray-50">
-            <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-xl">
+            <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md border border-gray-300">
                 <h2 className="text-3xl font-bold text-center mb-8">Register</h2>
 
                 <form action={formAction}>

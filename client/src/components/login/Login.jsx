@@ -15,8 +15,8 @@ export default function Login() {
 
     const loginSubmitHandler = async (values) => {
         const { email, password } = values;
-        const validationErrors = validate(values);        
-        setErrors(validationErrors);        
+        const validationErrors = validate(values);
+        setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length > 0) {
             return;
@@ -43,7 +43,7 @@ export default function Login() {
 
     return (
         <div className="flex justify-center items-center min-h-[80vh] bg-gray-50">
-            <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-xl">
+            <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md border border-gray-300">
                 <h2 className="text-3xl font-bold text-center mb-8">Login</h2>
 
                 <form action={formAction}>
