@@ -3,31 +3,10 @@ import { Link, useNavigate } from "react-router";
 import useForm from "../../hooks/useForm";
 import { useContext, useState } from "react";
 import UserContext from "../../contexts/UserContext";
+import { validateUser } from "../../utils/validators";
 
 function validate(values) {
-    let errors = {};
-
-    if (!values.email.trim()) {
-        errors.email = 'Email is required!';
-    }
-
-    if (!values.password.trim()) {
-        errors.password = "Password is required!";
-    } else if (values.password.length < 6) {
-        errors.password = "Password must be at least 6 characters!";
-    }
-
-    if (!values.confirmPassword.trim()) {
-        errors.confirmPassword = "Confirm password is required!";
-    } else if (values.confirmPassword.length < 6) {
-        errors.confirmPassword = "Confirm Password must be at least 6 characters!";
-    }
-
-    if (values.password !== values.confirmPassword) {
-        errors.confirmPassword = "Passwords do not match!";
-    }
-
-    return errors;
+    return validateUser(values);
 }
 
 export default function Register() {
@@ -49,7 +28,7 @@ export default function Register() {
 
             navigate('/');
         } catch (err) {
-            alert('Problem with register, please try again later!');
+            alert('There was a problem with registration. Please try again later.');
         }
     }
 

@@ -2,21 +2,10 @@ import { Link, useNavigate } from "react-router";
 import useForm from "../../hooks/useForm";
 import { useContext, useState } from "react";
 import UserContext from "../../contexts/UserContext";
+import { validateUser } from "../../utils/validators";
 
 function validate(values) {
-    let errors = {};
-
-    if (!values.email.trim()) {
-        errors.email = 'Email is required!';
-    }
-
-    if (!values.password.trim()) {
-        errors.password = "Password is required!";
-    } else if (values.password.length < 6) {
-        errors.password = "Password must be at least 6 characters!";
-    }
-
-    return errors;
+    return validateUser(values);
 }
 
 export default function Login() {
@@ -38,7 +27,12 @@ export default function Login() {
 
             navigate('/');
         } catch (err) {
-            alert('Incorrect email or password!');
+            console.log(err === 'Forbidden');
+            if (err === 'Forbidden') {
+                alert('Incorrect email or password.');
+            } else {
+                alert('A network error occurred. Please try again later.');
+            }
         }
     }
 
