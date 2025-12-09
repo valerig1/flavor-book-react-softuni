@@ -14,16 +14,24 @@ export default function Catalog() {
                 return;
             } 
 
-            const result = await request("/data/recipes");
+            const recipesResult = await request("/data/recipes");
+            
+            const likesResult = await request("/data/likes");
 
-            const modifiedRecipes = Object.values(result).map(recipe => ({
+            // Count likes per recipe
+            const likesCountMap = likesResult.reduce((acc, like) => {
+                acc[like.recipeId] = (acc[like.recipeId] || 0) + 1;
+                return acc;
+            }, {});
+
+            const modifiedRecipes = recipesResult.map(recipe => ({
                 ...recipe,
-                likesCount: recipe.likes ? recipe.likes.length : 0
-            }));            
+                likesCount: likesCountMap[recipe._id] || 0
+            }));
 
             modifiedRecipes.sort((a, b) => b.likesCount - a.likesCount);
 
-            setData(modifiedRecipes);   
+            setData(modifiedRecipes);
         } catch (err) {
             alert(err.message);
         }
@@ -48,10 +56,9 @@ export default function Catalog() {
                 Discover delicious recipes and start cooking today!
             </p>
 
-            {/* Recipe Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                {recipes.length > 0
+                {recipes?.length > 0
                     ?
                     (recipes.map(recipe => <RecipeCard key={recipe._id} {...recipe} />))
                     : <p className="col-span-full text-center text-gray-500 text-lg py-10">
