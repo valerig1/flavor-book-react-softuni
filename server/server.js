@@ -1350,12 +1350,13 @@
     		"3987279d-0ad4-4afb-8ca9-5b256ae3b298": {
     			_ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
     			name: "Easy Lasagna",
-    			img: "assets/lasagna.jpg",
+                description: "A quick, easy lasagna that layers rich ingredients into a delicious, crowd-pleasing meal.",
+    			img: "https://newmansown.com/wp-content/uploads/2022/03/Homemade-lasagna.png",
     			ingredients: [
-    				"1 tbsp Ingredient 1",
-    				"2 cups Ingredient 2",
-    				"500 g  Ingredient 3",
-    				"25 g Ingredient 4"
+    				"12 lasagna noodles",
+    				"400 g ground beef",
+    				"2 cups tomato sauce",
+    				"1 cup ricotta cheese"
     			],
     			steps: [
     				"Prepare ingredients",
@@ -1367,11 +1368,13 @@
     		"8f414b4f-ab39-4d36-bedb-2ad69da9c830": {
     			_ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
     			name: "Grilled Duck Fillet",
-    			img: "assets/roast.jpg",
+                description: "Tender grilled duck fillet with a rich, savory flavor and a perfectly crisped finish.",
+    			img: "https://images.squarespace-cdn.com/content/v1/5755ddad45bf2169386a1ae0/1624306372215-UT8LN0Q27IW8MBWRTH39/oven-roasted-moulard-duck-breast.jpg",
     			ingredients: [
-    				"500 g  Ingredient 1",
-    				"3 tbsp Ingredient 2",
-    				"2 cups Ingredient 3"
+    				"2 duck fillets",
+    				"1 tbsp olive oil",
+    				"1 tsp sea salt",
+                    "1 tsp black pepper"
     			],
     			steps: [
     				"Prepare ingredients",
@@ -1383,13 +1386,13 @@
     		"985d9eab-ad2e-4622-a5c8-116261fb1fd2": {
     			_ownerId: "847ec027-f659-4086-8032-5173e2f9c93a",
     			name: "Roast Trout",
-    			img: "assets/fish.jpg",
+                description: "Delicately roasted trout with a mild, clean flavor and fragrant herbs.",
+    			img: "https://www.dinnerwithjulie.com/wp-content/uploads/2014/08/trout.jpg",
     			ingredients: [
-    				"4 cups Ingredient 1",
-    				"1 tbsp Ingredient 2",
-    				"1 tbsp Ingredient 3",
-    				"750 g  Ingredient 4",
-    				"25 g Ingredient 5"
+    				"1 whole trout",
+    				"1 tbsp olive oil",
+    				"1 tsp sea salt",
+    				"1 tsp lemon zest",
     			],
     			steps: [
     				"Prepare ingredients",
@@ -1397,7 +1400,34 @@
     				"Cook until done"
     			],
     			_createdOn: 1613551388703
-    		}
+    		},
+            "176a5ecb-bc2f-423d-9da0-02fa9615847d": {
+                _ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
+                name:"Carbonara",
+                description: "A classic carbonara with a creamy, silky sauce and rich flavor.",
+                img: "https://www.allrecipes.com/thmb/Vg2cRidr2zcYhWGvPD8M18xM_WY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/11973-spaghetti-carbonara-ii-DDMFS-4x3-6edea51e421e4457ac0c3269f3be5157.jpg",
+                ingredients: [
+                    "200 g spaghetti",
+                    "100 g pancetta",
+                    "2 large eggs",
+                    "1/2 cup grated Parmesan",
+                    "1/2 tsp black pepper"
+                ],
+                steps: [
+                    "Prepare ingredients",
+                    "Mix ingredients",
+                    "Cook until done"
+                ],
+                _createdOn:1765111693637,
+            }
+    	},
+    	likes: {
+    		"0a272c58-b7ea-4e09-a000-7ec988248f66": {
+    			_ownerId: "35c62d76-8152-4626-8712-eeb96381bea8",
+    			recipeId: "8f414b4f-ab39-4d36-bedb-2ad69da9c830",
+    			_createdOn: 1614260681375,
+    			_id: "0a272c58-b7ea-4e09-a000-7ec988248f66"
+    		},
     	},
     	comments: {
     		"0a272c58-b7ea-4e09-a000-7ec988248f66": {
@@ -1513,8 +1543,6 @@
     			_createdOn: 1614935268135,
     			_id: "a9bae6d8-793e-46c4-a9db-deb9e3484909"
     		}
-    	},
-    	likes: {
     	},
     	ideas: {
     		"833e0e57-71dc-42c0-b387-0ce0caf5225e": {
