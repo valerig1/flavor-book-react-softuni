@@ -7,7 +7,7 @@ export default function RecipeCard({
     _id,
 }) {
     return (
-        <div className="bg-white shadow rounded-lg overflow-hidden">
+        <div className="bg-white shadow-md rounded-lg border border-gray-300 overflow-hidden">
             <img
                 src={img}
                 alt={name}

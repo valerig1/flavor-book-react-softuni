@@ -61,7 +61,7 @@ export default function Edit() {
 
     return (
         <div className="flex justify-center items-center min-h-screen py-12 bg-gray-50">
-            <div className="w-full max-w-xl bg-white p-8 rounded-lg shadow-xl">
+            <div className="w-full max-w-xl bg-white p-8 rounded-lg shadow-md border border-gray-300">
                 <h2 className="text-3xl font-bold text-center mb-8">Edit Recipe</h2>
 
                 <form action={formAction}>
@@ -126,7 +126,7 @@ export default function Edit() {
                             rows="4"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                focus:outline-none focus:ring focus:ring-blue-200"
-                            placeholder="List the ingredients..."
+                            placeholder="List the ingredients separated by comma..."
                         ></textarea>
                         {errors.ingredients && (
                             <p className="text-red-600 text-sm mt-1">{errors.ingredients}</p>
@@ -143,7 +143,7 @@ export default function Edit() {
                             rows="5"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                focus:outline-none focus:ring focus:ring-blue-200"
-                            placeholder="Describe the preparation steps..."
+                            placeholder="Describe the preparation steps separated by comma..."
                         ></textarea>
                         {errors.steps && (
                             <p className="text-red-600 text-sm mt-1">{errors.steps}</p>
