@@ -1,32 +1,38 @@
 import { useNavigate } from "react-router";
 import useForm from "../../hooks/useForm";
 import useRequest from "../../hooks/useRequest";
+import { useState } from "react";
+import { validateRecipe } from "../../utils/validators";
+import { parseList } from "../../utils/recipeHelper";
+
+function validate(values) {
+    return validateRecipe(values);
+}
 
 export default function RecipeCreate() {
     const navigate = useNavigate();
     const { request } = useRequest();
+    const [errors, setErrors] = useState({});
 
     const createRecipeSubmitHandler = async (values) => {
-        const { name, description, img, ingredients, steps } = values;
+        const validationErrors = validate(values);        
+        setErrors(validationErrors);        
 
-        if (!name || !description || !img || !ingredients || !steps) {
-            return alert('All fields are required!');
+        if (Object.keys(validationErrors).length > 0) {
+            return;
         }
 
-        const ingredientsArr = ingredients
-            .split(',')
-            .map(item => item.trim())
-            .filter(i => i.length > 0);
-        const stepsArr = steps
-            .split(',')
-            .map(item => item.trim())
-            .filter(i => i.length > 0);
+        const payload = {
+            ...values,
+            ingredients: parseList(values.ingredients),
+            steps: parseList(values.steps),
+        };
 
         try {
-            await request('/data/recipes', 'POST', { name, description, img, likes: [], ingredients: ingredientsArr, steps: stepsArr });
+            await request('/data/recipes', 'POST', payload);
             navigate('/recipes');
         } catch (err) {
-            alert(err.message);
+            alert('Something went wrong while creating the recipe. Please try again later.');
         }
     }
 
@@ -55,8 +61,10 @@ export default function RecipeCreate() {
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                focus:outline-none focus:ring focus:ring-blue-200"
                             placeholder="e.g., Spaghetti Carbonara"
-                            required
                         />
+                        {errors.name && (
+                            <p className="text-red-600 text-sm mt-1">{errors.name}</p>
+                        )}
                     </div>
 
                     {/* Short Description */}
@@ -70,8 +78,10 @@ export default function RecipeCreate() {
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                focus:outline-none focus:ring focus:ring-blue-200"
                             placeholder="A brief description of your recipe"
-                            required
                         />
+                        {errors.description && (
+                            <p className="text-red-600 text-sm mt-1">{errors.description}</p>
+                        )}
                     </div>
 
                     {/* Image URL */}
@@ -85,8 +95,10 @@ export default function RecipeCreate() {
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                focus:outline-none focus:ring focus:ring-blue-200"
                             placeholder="Paste an image link"
-                            required
                         />
+                        {errors.img && (
+                            <p className="text-red-600 text-sm mt-1">{errors.img}</p>
+                        )}
                     </div>
 
                     {/* Ingredients */}
@@ -99,9 +111,11 @@ export default function RecipeCreate() {
                             rows="4"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                focus:outline-none focus:ring focus:ring-blue-200"
-                            placeholder="List the ingredients..."
-                            required
+                            placeholder="List the ingredients separated by comma..."
                         ></textarea>
+                        {errors.ingredients && (
+                            <p className="text-red-600 text-sm mt-1">{errors.ingredients}</p>
+                        )}
                     </div>
 
                     {/* Steps */}
@@ -114,9 +128,11 @@ export default function RecipeCreate() {
                             rows="5"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                focus:outline-none focus:ring focus:ring-blue-200"
-                            placeholder="Describe the preparation steps..."
-                            required
+                            placeholder="Describe the preparation steps separated by comma..."
                         ></textarea>
+                        {errors.steps && (
+                            <p className="text-red-600 text-sm mt-1">{errors.steps}</p>
+                        )}
                     </div>
 
                     {/* Create Button */}

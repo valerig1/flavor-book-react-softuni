@@ -1,30 +1,33 @@
 import { useNavigate, useParams } from "react-router";
 import useForm from "../../hooks/useForm";
 import useRequest from "../../hooks/useRequest";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { validateRecipe } from "../../utils/validators";
+import { parseList } from "../../utils/recipeHelper";
+
+function validate(values) {
+    return validateRecipe(values);
+}
 
 export default function Edit() {
     const { recipeId } = useParams();
     const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
 
     const { data: recipe, request } = useRequest(`/data/recipes/${recipeId}`, {});
 
     const editRecipeSubmitHandler = async (values) => {
-        if (Object.values(values).some(v => !v)) {
-            return alert('All fields are required!');
+        const validationErrors = validate(values);        
+        setErrors(validationErrors);        
+
+        if (Object.keys(validationErrors).length > 0) {
+            return;
         }
 
         const payload = {
-            ...recipe,
             ...values,
-            ingredients: values.ingredients
-                .split(',')
-                .map(i => i.trim())
-                .filter(i => i.length > 0),
-            steps: values.steps
-                .split(',')
-                .map(s => s.trim())
-                .filter(i => i.length > 0),
+            ingredients: parseList(values.ingredients),
+            steps: parseList(values.steps),
         };
 
         try {
@@ -32,11 +35,11 @@ export default function Edit() {
 
             navigate(`/recipes/${recipeId}/details`);
         } catch (err) {
-            alert(err.message);
+            alert('Something went wrong while editing the recipe. Please try again later.');
         }
     }
 
-     const { formAction, changeHandler, values, setValues } = useForm(editRecipeSubmitHandler, {
+    const { formAction, changeHandler, values, setValues } = useForm(editRecipeSubmitHandler, {
         name: '',
         description: '',
         img: '',
@@ -73,8 +76,10 @@ export default function Edit() {
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                focus:outline-none focus:ring focus:ring-blue-200"
                             placeholder="e.g., Spaghetti Carbonara"
-                            required
                         />
+                        {errors.name && (
+                            <p className="text-red-600 text-sm mt-1">{errors.name}</p>
+                        )}
                     </div>
 
                     {/* Short Description */}
@@ -88,8 +93,10 @@ export default function Edit() {
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                focus:outline-none focus:ring focus:ring-blue-200"
                             placeholder="A brief description of your recipe"
-                            required
                         />
+                        {errors.description && (
+                            <p className="text-red-600 text-sm mt-1">{errors.description}</p>
+                        )}
                     </div>
 
                     {/* Image URL */}
@@ -103,8 +110,10 @@ export default function Edit() {
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                focus:outline-none focus:ring focus:ring-blue-200"
                             placeholder="Paste an image link"
-                            required
                         />
+                        {errors.img && (
+                            <p className="text-red-600 text-sm mt-1">{errors.img}</p>
+                        )}
                     </div>
 
                     {/* Ingredients */}
@@ -118,8 +127,10 @@ export default function Edit() {
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                focus:outline-none focus:ring focus:ring-blue-200"
                             placeholder="List the ingredients..."
-                            required
                         ></textarea>
+                        {errors.ingredients && (
+                            <p className="text-red-600 text-sm mt-1">{errors.ingredients}</p>
+                        )}
                     </div>
 
                     {/* Steps */}
@@ -133,8 +144,10 @@ export default function Edit() {
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                focus:outline-none focus:ring focus:ring-blue-200"
                             placeholder="Describe the preparation steps..."
-                            required
                         ></textarea>
+                        {errors.steps && (
+                            <p className="text-red-600 text-sm mt-1">{errors.steps}</p>
+                        )}
                     </div>
 
                     {/* Create Button */}
