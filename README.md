@@ -1,17 +1,21 @@
 # Flavor Book Courese Project | Softuni "ReactJS" - October 2025
 
-A modern, user-friendly React.js web application for browsing, searching, and managing cooking recipes.
-The platform allows users to explore recently added recipes, browse a full catalog, create accounts, and manage their own sessions through login/logout functionality.
+A modern, user-friendly React.js web application for exploring and managing cooking recipes.
+The platform allows users to browse the latest recipes, filter them by popularity or date, create their own recipes, like recipes, and manage their accounts with login/logout functionality.
 
 **Installation & Setup**
-1. **Clone the repository**
+- **Clone the repository**
    - git clone https://github.com/valerig1/flavor-book-react-softuni.git
+   - cd flavor-book-react-softuni 
 
-2. **Navigate to project directory**
+- **Install client dependencies**
     - cd client
-
-3. **Install dependencies**
     - npm install
 
-4. **Run the development server**
+- **Run the client in development mode**
     - npm run dev
+
+- **Run the SoftUni practice server**
+    - cd server
+    - node server.js
+> This project works with the [SoftUni Practice Server](https://github.com/softuni-practice-server/softuni-practice-server) (run it from the `server` folder as instructed in the repo).
