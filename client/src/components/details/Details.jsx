@@ -91,7 +91,7 @@ export default function Details() {
 
     return (
         <div className="relative min-h-[calc(100vh-8rem)] flex justify-center items-center bg-gray-50">
-            <div className="bg-white rounded-xl shadow-md p-6 max-w-3xl w-full overflow-hidden text-base">
+            <div className="bg-white rounded-xl shadow-md p-6 max-w-3xl w-full overflow-hidden text-base border border-gray-300 hover:border-gray-400 transition">
                 {/* Image */}
                 <img
                     src={recipe.img}
