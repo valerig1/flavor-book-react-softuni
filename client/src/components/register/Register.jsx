@@ -1,30 +1,55 @@
 import { Link, useNavigate } from "react-router";
 
 import useForm from "../../hooks/useForm";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import UserContext from "../../contexts/UserContext";
+
+function validate(values) {
+    let errors = {};
+
+    if (!values.email.trim()) {
+        errors.email = 'Email is required!';
+    }
+
+    if (!values.password.trim()) {
+        errors.password = "Password is required!";
+    } else if (values.password.length < 6) {
+        errors.password = "Password must be at least 6 characters!";
+    }
+
+    if (!values.confirmPassword.trim()) {
+        errors.confirmPassword = "Confirm password is required!";
+    } else if (values.confirmPassword.length < 6) {
+        errors.confirmPassword = "Confirm Password must be at least 6 characters!";
+    }
+
+    if (values.password !== values.confirmPassword) {
+        errors.confirmPassword = "Passwords do not match!";
+    }
+
+    return errors;
+}
 
 export default function Register() {
     const navigate = useNavigate();
     const { registerHandler } = useContext(UserContext);
+    const [errors, setErrors] = useState({});
 
     const registerSubmitHandler = async (values) => {
-        const { email, password, confirmPassword } = values;
+        const { email, password } = values;
+        const validationErrors = validate(values);
+        setErrors(validationErrors);
 
-        if (!email || !password) {
-            return alert('Email and password are required!');
-        }
-
-        if (password !== confirmPassword) {
-            return alert('Password missmatch!');
+        if (Object.keys(validationErrors).length > 0) {
+            return;
         }
 
         try {
             await registerHandler(email, password);
-            
+
             navigate('/');
         } catch (err) {
-            alert(err.message);
+            alert('Problem with register, please try again later!');
         }
     }
 
@@ -47,10 +72,12 @@ export default function Register() {
                             type="email"
                             name="email"
                             onChange={changeHandler}
-                            values={values.email}
+                            value={values.email}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
-                            required
                         />
+                        {errors.email && (
+                            <p className="text-red-600 text-sm mt-1">{errors.email}</p>
+                        )}
                     </div>
 
                     {/* Password */}
@@ -60,10 +87,12 @@ export default function Register() {
                             type="password"
                             name="password"
                             onChange={changeHandler}
-                            values={values.password}
+                            value={values.password}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
-                            required
                         />
+                        {errors.password && (
+                            <p className="text-red-600 text-sm mt-1">{errors.password}</p>
+                        )}
                     </div>
 
                     {/* Confirm Password */}
@@ -73,10 +102,12 @@ export default function Register() {
                             type="password"
                             name="confirmPassword"
                             onChange={changeHandler}
-                            values={values.confirmPassword}
+                            value={values.confirmPassword}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
-                            required
                         />
+                        {errors.confirmPassword && (
+                            <p className="text-red-600 text-sm mt-1">{errors.confirmPassword}</p>
+                        )}
                     </div>
 
                     {/* Already registered link */}
